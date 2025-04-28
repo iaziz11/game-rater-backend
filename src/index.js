@@ -1,4 +1,5 @@
 import { getCredits, getGamesFromQuery } from "./services/apiService.js";
+import { getListsFromUser } from "./services/userService.js";
 import express from "express";
 import cors from "cors";
 
@@ -46,6 +47,12 @@ app.get("/search", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Server Error", error: error });
   }
+});
+
+app.get("/user/:id/lists", async (req, res) => {
+  let userId = req.params.id;
+  await getListsFromUser(userId);
+  return res.send("Hopefully worked.");
 });
 
 // Start the server
