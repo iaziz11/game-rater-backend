@@ -16,12 +16,30 @@ export async function getCredits() {
 }
 
 export async function getGamesFromQuery(query, access_token) {
-  console.log(access_token);
-  console.log(id);
   try {
     const response = await axios.post(
       "https://api.igdb.com/v4/games",
-      `search "${query}"; fields name, summary;`,
+      `search "${query}"; fields name, first_release_date, cover.url;`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Client-ID": id,
+          Authorization: `Bearer ${access_token}`,
+          "Content-Type": "text/plain",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getGameFromId(id, access_token) {
+  try {
+    const response = await axios.post(
+      "https://api.igdb.com/v4/games",
+      `search "${query}"; fields name, first_release_date, cover.url;`,
       {
         headers: {
           Accept: "application/json",
